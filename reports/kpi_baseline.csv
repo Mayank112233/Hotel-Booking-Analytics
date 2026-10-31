@@ -1,0 +1,2 @@
+total_bookings,completed_bookings,cancelled_bookings,total_revenue,total_profit,average_booking_value,cancellation_rate,profit_margin,average_daily_rate,average_length_of_stay,repeat_customer_rate
+6000,4686,1009,1940329.12,545217.39,414.0693811352967,0.16816666666666666,0.2809922215670298,137.038570520517,3.021553563807085,0.9849624060150376

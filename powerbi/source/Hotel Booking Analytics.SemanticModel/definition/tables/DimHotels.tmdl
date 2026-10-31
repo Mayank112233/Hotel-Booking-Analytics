@@ -1,0 +1,51 @@
+table DimHotels
+	lineageTag: f1334c2d-ce93-58e2-8b6c-aa9205568939
+
+	column hotel_name
+		dataType: string
+		lineageTag: 0c18fbf4-1eef-483b-b64e-912094822d25
+		summarizeBy: none
+		sourceColumn: hotel_name
+
+	column region
+		dataType: string
+		lineageTag: 6db72835-46d5-4121-921b-082eb2577180
+		summarizeBy: none
+		sourceColumn: region
+
+	column hotel_id
+		dataType: string
+		isHidden
+		lineageTag: 8292f3d2-24bf-44e1-a647-45f65a0099d1
+		summarizeBy: none
+		sourceColumn: hotel_id
+
+	column city
+		dataType: string
+		lineageTag: 206b51a1-0c49-4833-9c92-fa9a3af4bce3
+		summarizeBy: none
+		sourceColumn: city
+
+	column country
+		dataType: string
+		lineageTag: d91e284d-39b1-4d35-a2a7-a2a9cec7011a
+		summarizeBy: none
+		sourceColumn: country
+
+	column hotel_category
+		dataType: string
+		lineageTag: e872d320-430f-45bd-8785-4c265df0089b
+		summarizeBy: none
+		sourceColumn: hotel_category
+
+	partition DimHotels = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(pDataFolder & "/hotels.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"hotel_name", type text}, {"region", type text}, {"hotel_id", type text}, {"city", type text}, {"country", type text}, {"hotel_category", type text}}, "en-US")
+				in
+				    Typed
+

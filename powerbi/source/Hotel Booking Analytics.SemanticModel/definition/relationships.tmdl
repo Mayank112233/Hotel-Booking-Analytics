@@ -1,0 +1,29 @@
+relationship 44ad8d80-1752-5c6b-b677-5bc2e3d52081
+	fromColumn: FactBookings.hotel_id
+	toColumn: DimHotels.hotel_id
+
+relationship d687a11f-72a6-5562-a00f-1477c3fa1d15
+	fromColumn: FactBookings.customer_id
+	toColumn: DimCustomers.customer_id
+
+relationship e0a76c3b-785e-53b5-adb3-e2e8b3cb1015
+	fromColumn: FactBookings.channel_id
+	toColumn: DimChannels.channel_id
+
+relationship 08fb6db2-fe8e-55f9-b07b-c4b10015bc7a
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactBookings.check_in_date
+	toColumn: DimDate.date
+
+relationship 017aeed9-6fe8-5151-b800-6077ea5d0ed4
+	isActive: false
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactBookings.booking_date
+	toColumn: DimDate.date
+
+relationship 989e6937-8162-578b-801d-cfcab24d724f
+	isActive: false
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactBookings.check_out_date
+	toColumn: DimDate.date
+

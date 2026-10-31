@@ -1,0 +1,63 @@
+table DimDate
+	lineageTag: 38185825-ed6f-59a6-813b-c7489531fa33
+	dataCategory: Time
+
+	column date
+		dataType: dateTime
+		isKey
+		formatString: yyyy-MM-dd
+		lineageTag: ebb8f82f-8d20-4c36-9c80-f284bac0e4ae
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column date_key
+		dataType: int64
+		isHidden
+		lineageTag: 0f96f024-91ec-4bd9-9f07-ef1d7c6319d4
+		summarizeBy: none
+		sourceColumn: date_key
+
+	column year
+		dataType: int64
+		lineageTag: 28796451-e618-4e7a-aa4d-393e40ffb7ea
+		summarizeBy: none
+		sourceColumn: year
+
+	column month_number
+		dataType: int64
+		lineageTag: 500439b1-b67e-46de-8f8a-ce074ee6a02a
+		summarizeBy: none
+		sourceColumn: month_number
+
+	column month_name
+		dataType: string
+		lineageTag: 92528cd4-e9d4-41bf-8ccd-86f4fff0e934
+		summarizeBy: none
+		sourceColumn: month_name
+		sortByColumn: month_number
+
+	column year_month
+		dataType: string
+		lineageTag: d0102c64-8c31-4278-b70b-e5f20d8886c6
+		summarizeBy: none
+		sourceColumn: year_month
+
+	column quarter
+		dataType: int64
+		lineageTag: 8741a52f-d5cb-41b9-b24b-d57c5a9812ba
+		summarizeBy: none
+		sourceColumn: quarter
+
+	partition DimDate = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(pDataFolder & "/dates.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"date", type date}, {"date_key", Int64.Type}, {"year", Int64.Type}, {"month_number", Int64.Type}, {"month_name", type text}, {"year_month", type text}, {"quarter", Int64.Type}}, "en-US")
+				in
+				    Typed
+

@@ -1,0 +1,7 @@
+pandas>=2.2,<4
+numpy>=1.26,<3
+SQLAlchemy>=2.0,<3
+mysql-connector-python>=9,<27
+matplotlib>=3.9,<4
+seaborn>=0.13,<0.14
+python-dotenv>=1,<2

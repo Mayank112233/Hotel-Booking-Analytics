@@ -1,0 +1,35 @@
+{
+  "name": "Hotel Analytics Corporate",
+  "dataColors": [
+    "#145DA0",
+    "#64748B",
+    "#087E8B",
+    "#A45600",
+    "#7060A0"
+  ],
+  "background": "#FFFFFF",
+  "foreground": "#1E293B",
+  "tableAccent": "#145DA0",
+  "textClasses": {
+    "callout": {
+      "fontFace": "Segoe UI",
+      "fontSize": 28,
+      "color": "#1E293B"
+    },
+    "title": {
+      "fontFace": "Segoe UI",
+      "fontSize": 14,
+      "color": "#1E293B"
+    },
+    "header": {
+      "fontFace": "Segoe UI",
+      "fontSize": 12,
+      "color": "#1E293B"
+    },
+    "label": {
+      "fontFace": "Segoe UI",
+      "fontSize": 11,
+      "color": "#334155"
+    }
+  }
+}

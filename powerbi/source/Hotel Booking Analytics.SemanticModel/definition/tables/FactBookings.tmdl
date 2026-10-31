@@ -1,0 +1,325 @@
+table FactBookings
+	lineageTag: 19af8b34-7d4a-5cd5-80c2-99fd9beab1d6
+
+	measure 'Total Bookings' = DISTINCTCOUNT(FactBookings[booking_id])
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 0a312e53-6cf2-42f5-b360-f32e6ba2b711
+
+	measure 'Completed Bookings' = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "Completed"))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 4087d9bb-b823-43c2-a673-7abddbfd4679
+
+	measure 'Cancelled Bookings' = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "Cancelled"))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 901a181f-7008-4cc5-b9a5-ee6a0773558e
+
+	measure 'Total Revenue' = DIVIDE(SUM(FactBookings[revenue_cents]), 100)
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: e99104ea-0292-4760-8b82-8c43fc252d01
+
+	measure 'Total Profit' = DIVIDE(SUM(FactBookings[profit_cents]), 100)
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: 015c7575-190e-4563-be8e-559d3191642b
+
+	measure 'Average Booking Value' = DIVIDE([Total Revenue], [Completed Bookings])
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: 82930718-6ac9-4acf-96fa-f42c8afbdeaf
+
+	measure 'Cancellation Rate' = DIVIDE([Cancelled Bookings], [Total Bookings])
+		formatString: 0.00%
+		displayFolder: KPIs
+		lineageTag: bba694f5-c24c-4244-86d9-923eb4111518
+
+	measure 'Profit Margin' = DIVIDE([Total Profit], [Total Revenue])
+		formatString: 0.00%
+		displayFolder: KPIs
+		lineageTag: 4c4f272b-014d-46ce-9c28-73b52f6475ed
+
+	measure 'Occupied Room Nights' = CALCULATE(SUM(FactBookings[number_of_nights]), KEEPFILTERS(FactBookings[booking_status] = "Completed"))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: cfb26203-b09c-4f3c-821f-e511d7c7d74b
+
+	measure 'Average Daily Rate' = DIVIDE([Total Revenue], [Occupied Room Nights])
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: ee80add1-0d1c-4ffc-a7f0-527559b174de
+
+	measure 'Average Length of Stay' = DIVIDE([Occupied Room Nights], [Completed Bookings])
+		formatString: 0.00
+		displayFolder: KPIs
+		lineageTag: 02f254a7-49db-4d89-902d-6e994241cb6d
+
+	measure 'Revenue Previous Month' = IF(HASONEVALUE(DimDate[year_month]), CALCULATE([Total Revenue], DATEADD(DimDate[date], -1, MONTH)))
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: 4c32ff09-4e2f-4a57-bc7b-f9657878478c
+
+	measure 'Revenue Month-over-Month %' = DIVIDE([Total Revenue] - [Revenue Previous Month], [Revenue Previous Month])
+		formatString: 0.00%
+		displayFolder: KPIs
+		lineageTag: c6b98d06-4e28-40e0-b189-166eea9116e4
+
+	measure 'Revenue Previous Year' = IF(HASONEVALUE(DimDate[year_month]), CALCULATE([Total Revenue], DATEADD(DimDate[date], -1, YEAR)))
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: 7be007f9-40f0-4aac-a440-eabad5f67056
+
+	measure 'Revenue Year-over-Year %' = DIVIDE([Total Revenue] - [Revenue Previous Year], [Revenue Previous Year])
+		formatString: 0.00%
+		displayFolder: KPIs
+		lineageTag: 03e525fd-cf76-4fba-9c33-a591e7998446
+
+	measure 'Repeat Customer Rate' =
+			VAR CustomersWithStays =
+			    ADDCOLUMNS(VALUES(FactBookings[customer_id]), "StayCount", CALCULATE([Completed Bookings]))
+			VAR Eligible = COUNTROWS(FILTER(CustomersWithStays, [StayCount] >= 1))
+			VAR Repeaters = COUNTROWS(FILTER(CustomersWithStays, [StayCount] > 1))
+			RETURN DIVIDE(Repeaters, Eligible)
+		formatString: 0.00%
+		displayFolder: KPIs
+		lineageTag: 29570c3c-d715-4c9f-9a68-5d1b12f91d24
+
+	measure 'Booking Demand' =
+			CALCULATE([Total Bookings],
+			    CROSSFILTER(DimDate[date], FactBookings[check_in_date], NONE),
+			    USERELATIONSHIP(DimDate[date], FactBookings[booking_date]))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: bd450692-e984-49db-8323-a3394c3e6371
+
+	measure 'Average Lead Time' = AVERAGE(FactBookings[lead_time_days])
+		formatString: 0.00
+		displayFolder: KPIs
+		lineageTag: 013b794c-114d-446f-a11b-d78e6c45dcbc
+
+	measure 'No Show Bookings' = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "No Show"))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: 13dd83c1-c778-48f7-b3d8-523272fe9508
+
+	measure 'Top Five Hotel Revenue' = IF(RANKX(ALLSELECTED(DimHotels[hotel_name]), [Total Revenue], , DESC, DENSE) <= 5, [Total Revenue])
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: fe5445b3-f550-4b26-907e-0e425ad1b2cd
+
+	measure 'Top Ten Hotel Profit' = IF(RANKX(ALLSELECTED(DimHotels[hotel_name]), [Total Profit], , DESC, DENSE) <= 10, [Total Profit])
+		formatString: #,0.00 " CU"
+		displayFolder: KPIs
+		lineageTag: 8ee172f2-3be5-47e4-bb7d-d52c29324ded
+
+	measure 'Completed Customers' = CALCULATE(DISTINCTCOUNT(FactBookings[customer_id]), KEEPFILTERS(FactBookings[booking_status] = "Completed"))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: e5ab35f0-b237-48df-8ccd-6cbc202400c0
+
+	measure 'Repeat Customers' = COUNTROWS(FILTER(VALUES(FactBookings[customer_id]), [Completed Bookings] > 1))
+		formatString: #,0
+		displayFolder: KPIs
+		lineageTag: e02b1ea8-10da-4927-8bbd-c50a47ff0781
+
+	column booking_id
+		dataType: string
+		isHidden
+		lineageTag: b7927a13-55bb-4e30-bde5-96a5fffc8968
+		summarizeBy: none
+		sourceColumn: booking_id
+
+	column customer_id
+		dataType: string
+		isHidden
+		lineageTag: 39aee59f-1edc-4d26-b1d7-5abe707caf9f
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column hotel_id
+		dataType: string
+		isHidden
+		lineageTag: e4fd3bf8-8356-4b7e-95c5-5adad2a85fde
+		summarizeBy: none
+		sourceColumn: hotel_id
+
+	column channel_id
+		dataType: int64
+		isHidden
+		lineageTag: 52588aef-1f2a-4c22-b83d-6c0b8531792f
+		summarizeBy: none
+		sourceColumn: channel_id
+
+	column booking_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 0ef97fd3-26fe-46b7-914f-dfb3d67265bd
+		summarizeBy: none
+		sourceColumn: booking_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column check_in_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 3855066d-f562-4a76-9f0f-c015b4824d1d
+		summarizeBy: none
+		sourceColumn: check_in_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column check_out_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: 13fac871-2ddc-4d82-a3e3-e6ce91d9159e
+		summarizeBy: none
+		sourceColumn: check_out_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column room_type
+		dataType: string
+		lineageTag: a0e76335-4261-45b4-af32-78ae0a449c28
+		summarizeBy: none
+		sourceColumn: room_type
+
+	column booking_channel
+		dataType: string
+		lineageTag: fc4fa73a-5271-413f-9581-07c2fb400da2
+		summarizeBy: none
+		sourceColumn: booking_channel
+
+	column booking_status
+		dataType: string
+		lineageTag: f23877a9-af46-48a2-92ec-6a9fcafe54cc
+		summarizeBy: none
+		sourceColumn: booking_status
+
+	column number_of_guests
+		dataType: int64
+		lineageTag: 91489da1-4911-49b3-8dfe-a8ac86bd6889
+		summarizeBy: none
+		sourceColumn: number_of_guests
+
+	column number_of_nights
+		dataType: int64
+		lineageTag: 8e79f632-0e3d-44be-9491-63d97844ccee
+		summarizeBy: none
+		sourceColumn: number_of_nights
+
+	column lead_time_days
+		dataType: int64
+		lineageTag: 557b132f-42f8-4a79-bbe8-8424aeb37641
+		summarizeBy: none
+		sourceColumn: lead_time_days
+
+	column customer_segment
+		dataType: string
+		lineageTag: 7e45b93a-9474-45cd-9742-cbbb7aeb9a38
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+	column source_country
+		dataType: string
+		lineageTag: fb1e3148-c7dd-4c14-ad2e-60c774541008
+		summarizeBy: none
+		sourceColumn: source_country
+
+	column room_rate
+		dataType: decimal
+		lineageTag: 6db726f7-d90c-4f73-a1ee-4fa94cdcf9fd
+		summarizeBy: none
+		sourceColumn: room_rate
+
+	column room_rate_cents
+		dataType: int64
+		isHidden
+		lineageTag: 8f7a78c5-16ab-4197-98b2-d758fb157e37
+		summarizeBy: none
+		sourceColumn: room_rate_cents
+
+	column discount_amount
+		dataType: decimal
+		lineageTag: 93f6e2a0-c08d-41a8-a2a6-55eb6571969a
+		summarizeBy: none
+		sourceColumn: discount_amount
+
+	column discount_amount_cents
+		dataType: int64
+		isHidden
+		lineageTag: e23b7493-fe8a-4a35-967f-1d2ea1f39a38
+		summarizeBy: none
+		sourceColumn: discount_amount_cents
+
+	column revenue
+		dataType: decimal
+		lineageTag: c180fa79-f1e4-493b-a405-464bdadd634f
+		summarizeBy: none
+		sourceColumn: revenue
+
+	column revenue_cents
+		dataType: int64
+		isHidden
+		lineageTag: 7e566e66-9083-4b17-a7fb-613416e74087
+		summarizeBy: none
+		sourceColumn: revenue_cents
+
+	column estimated_cost
+		dataType: decimal
+		lineageTag: 51e7aac8-9ed5-4b5a-ba6e-4e836fd71bc5
+		summarizeBy: none
+		sourceColumn: estimated_cost
+
+	column estimated_cost_cents
+		dataType: int64
+		isHidden
+		lineageTag: d676c4fa-2797-44ac-bccf-77017003fca2
+		summarizeBy: none
+		sourceColumn: estimated_cost_cents
+
+	column profit
+		dataType: decimal
+		lineageTag: ae37f569-8486-4895-888a-372262fcbb92
+		summarizeBy: none
+		sourceColumn: profit
+
+	column profit_cents
+		dataType: int64
+		isHidden
+		lineageTag: ddf6a59e-795d-416b-be54-8985c9e9df20
+		summarizeBy: none
+		sourceColumn: profit_cents
+
+	column total_booking_amount
+		dataType: decimal
+		lineageTag: 49c29d42-142a-458e-87d0-fc561cc3f68b
+		summarizeBy: none
+		sourceColumn: total_booking_amount
+
+	column total_booking_amount_cents
+		dataType: int64
+		isHidden
+		lineageTag: bbece782-202f-4395-ac58-cbb052fbfe26
+		summarizeBy: none
+		sourceColumn: total_booking_amount_cents
+
+	column lead_time_band
+		dataType: string
+		lineageTag: 7dac9ff2-3e88-4e6a-8a60-30921752d3bc
+		summarizeBy: none
+		sourceColumn: lead_time_band
+
+	partition FactBookings = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(pDataFolder & "/bookings.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+				    Bands = Table.AddColumn(Nulls, "lead_time_band", each if Number.FromText([lead_time_days])<7 then "00-06" else if Number.FromText([lead_time_days])<14 then "07-13" else if Number.FromText([lead_time_days])<30 then "14-29" else "30+", type text),
+				    Typed = Table.TransformColumnTypes(Bands, {{"booking_id", type text}, {"customer_id", type text}, {"hotel_id", type text}, {"channel_id", Int64.Type}, {"booking_date", type date}, {"check_in_date", type date}, {"check_out_date", type date}, {"room_type", type text}, {"booking_channel", type text}, {"booking_status", type text}, {"number_of_guests", Int64.Type}, {"number_of_nights", Int64.Type}, {"lead_time_days", Int64.Type}, {"customer_segment", type text}, {"source_country", type text}, {"room_rate", Currency.Type}, {"room_rate_cents", Int64.Type}, {"discount_amount", Currency.Type}, {"discount_amount_cents", Int64.Type}, {"revenue", Currency.Type}, {"revenue_cents", Int64.Type}, {"estimated_cost", Currency.Type}, {"estimated_cost_cents", Int64.Type}, {"profit", Currency.Type}, {"profit_cents", Int64.Type}, {"total_booking_amount", Currency.Type}, {"total_booking_amount_cents", Int64.Type}, {"lead_time_band", type text}}, "en-US")
+				in
+				    Typed
+

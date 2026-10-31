@@ -1,0 +1,3 @@
+expression pDataFolder = "C:/Users/madhu/OneDrive/Desktop/sql/Hotel-Booking-Analytics/data/processed" meta [IsParameterQuery=true, Type="Text", IsParameterQueryRequired=true]
+	lineageTag: 03b706a3-4c61-4145-8b84-5d5379f1e401
+

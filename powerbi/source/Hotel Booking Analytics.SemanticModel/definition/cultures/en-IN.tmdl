@@ -1,0 +1,88 @@
+cultureInfo en-IN
+
+	linguisticMetadata =
+			{
+			  "Version": "1.0.0",
+			  "Language": "en-US",
+			  "Entities": {
+			    "factbookings.total_bookings": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Total Bookings"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.completed_bookings": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Completed Bookings"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.cancelled_bookings": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Cancelled Bookings"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.total_revenue": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Total Revenue"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.total_profit": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Total Profit"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.average_booking_value": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Average Booking Value"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.cancellation_rate": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Cancellation Rate"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.profit_margin": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Profit Margin"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.average_daily_rate": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Average Daily Rate"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.average_length_of_stay": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Average Length of Stay"
+			      },
+			      "State": "Generated"
+			    },
+			    "factbookings.repeat_customer_rate": {
+			      "Binding": {
+			        "ConceptualEntity": "FactBookings",
+			        "ConceptualProperty": "Repeat Customer Rate"
+			      },
+			      "State": "Generated"
+			    }
+			  }
+			}
+		contentType: json
+

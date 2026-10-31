@@ -1,0 +1,48 @@
+table DimCustomers
+	lineageTag: 5a0ea402-78cf-5d25-ac8d-75cbc8c171c5
+
+	column customer_id
+		dataType: string
+		isHidden
+		lineageTag: 1020251d-5660-43c4-a06d-3a49ab1baaed
+		summarizeBy: none
+		sourceColumn: customer_id
+
+	column customer_name
+		dataType: string
+		lineageTag: 7c9a4f83-1677-4fe3-9bad-3e868967bdc8
+		summarizeBy: none
+		sourceColumn: customer_name
+
+	column country
+		dataType: string
+		lineageTag: 2ce5e1e2-e2c0-4dac-a1f7-7e817a941b22
+		summarizeBy: none
+		sourceColumn: country
+
+	column registration_date
+		dataType: dateTime
+		formatString: yyyy-MM-dd
+		lineageTag: c762375d-38ed-4db0-869d-1d4c92ed6a70
+		summarizeBy: none
+		sourceColumn: registration_date
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column customer_segment
+		dataType: string
+		lineageTag: 793bc03c-a18a-4548-9fd1-08ac4e75ae54
+		summarizeBy: none
+		sourceColumn: customer_segment
+
+	partition DimCustomers = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(pDataFolder & "/customers.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"customer_id", type text}, {"customer_name", type text}, {"country", type text}, {"registration_date", type date}, {"customer_segment", type text}}, "en-US")
+				in
+				    Typed
+

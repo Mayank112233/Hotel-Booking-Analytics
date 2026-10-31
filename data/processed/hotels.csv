@@ -1,0 +1,22 @@
+hotel_name,region,hotel_id,city,country,hotel_category
+Abu Dhabi Executive,Middle East,H001,Unknown,Unknown,Unknown
+Amsterdam City Stay,Europe,H002,Unknown,Unknown,Unknown
+Austin Business Stay,North America,H003,Unknown,Unknown,Unknown
+Bangalore Tech Park Hotel,Asia Pacific,H004,Unknown,Unknown,Unknown
+Bangkok Business Suites,Asia Pacific,H005,Unknown,Unknown,Unknown
+Bogota Executive,Latin America,H006,Unknown,Unknown,Unknown
+Chicago Executive,North America,H007,Unknown,Unknown,Unknown
+Doha Corporate Hotel,Middle East,H008,Unknown,Unknown,Unknown
+Dubai Business Bay,Middle East,H009,Unknown,Unknown,Unknown
+HRS Berlin Central,Europe,H010,Unknown,Unknown,Unknown
+Milan Business Suites,Europe,H011,Unknown,Unknown,Unknown
+Munich Business Hotel,Europe,H012,Unknown,Unknown,Unknown
+New York Business Inn,North America,H013,Unknown,Unknown,Unknown
+Paris Executive,Europe,H014,Unknown,Unknown,Unknown
+San Francisco Central,North America,H015,Unknown,Unknown,Unknown
+Santiago Corporate Stay,Latin America,H016,Unknown,Unknown,Unknown
+Sao Paulo Business Hotel,Latin America,H017,Unknown,Unknown,Unknown
+Singapore Business Hub,Asia Pacific,H018,Unknown,Unknown,Unknown
+Sydney CBD Hotel,Asia Pacific,H019,Unknown,Unknown,Unknown
+Tokyo Corporate Stay,Asia Pacific,H020,Unknown,Unknown,Unknown
+Toronto Corporate Hotel,North America,H021,Unknown,Unknown,Unknown

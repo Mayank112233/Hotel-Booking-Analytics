@@ -1,0 +1,48 @@
+// Create each measure separately on FactBookings (this is a definition catalog).
+// Active date relationship: DimDate[date] -> FactBookings[check_in_date].
+Total Bookings = DISTINCTCOUNT(FactBookings[booking_id])
+
+Completed Bookings = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "Completed"))
+
+Cancelled Bookings = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "Cancelled"))
+
+Total Revenue = DIVIDE(SUM(FactBookings[revenue_cents]), 100)
+
+Total Profit = DIVIDE(SUM(FactBookings[profit_cents]), 100)
+
+Average Booking Value = DIVIDE([Total Revenue], [Completed Bookings])
+
+Cancellation Rate = DIVIDE([Cancelled Bookings], [Total Bookings])
+
+Profit Margin = DIVIDE([Total Profit], [Total Revenue])
+
+Occupied Room Nights = CALCULATE(SUM(FactBookings[number_of_nights]), KEEPFILTERS(FactBookings[booking_status] = "Completed"))
+
+Average Daily Rate = DIVIDE([Total Revenue], [Occupied Room Nights])
+
+Average Length of Stay = DIVIDE([Occupied Room Nights], [Completed Bookings])
+
+Revenue Previous Month = IF(HASONEVALUE(DimDate[year_month]), CALCULATE([Total Revenue], DATEADD(DimDate[date], -1, MONTH)))
+
+Revenue Month-over-Month % = DIVIDE([Total Revenue] - [Revenue Previous Month], [Revenue Previous Month])
+
+Revenue Previous Year = IF(HASONEVALUE(DimDate[year_month]), CALCULATE([Total Revenue], DATEADD(DimDate[date], -1, YEAR)))
+
+Revenue Year-over-Year % = DIVIDE([Total Revenue] - [Revenue Previous Year], [Revenue Previous Year])
+
+Repeat Customer Rate =
+VAR CustomersWithStays =
+    ADDCOLUMNS(VALUES(FactBookings[customer_id]), "StayCount", CALCULATE([Completed Bookings]))
+VAR Eligible = COUNTROWS(FILTER(CustomersWithStays, [StayCount] >= 1))
+VAR Repeaters = COUNTROWS(FILTER(CustomersWithStays, [StayCount] > 1))
+RETURN DIVIDE(Repeaters, Eligible)
+
+// Operational demand follows reservation creation, even though the report defaults to arrival dates.
+Booking Demand =
+CALCULATE([Total Bookings],
+    CROSSFILTER(DimDate[date], FactBookings[check_in_date], NONE),
+    USERELATIONSHIP(DimDate[date], FactBookings[booking_date]))
+
+Average Lead Time = AVERAGE(FactBookings[lead_time_days])
+
+No Show Bookings = CALCULATE([Total Bookings], KEEPFILTERS(FactBookings[booking_status] = "No Show"))

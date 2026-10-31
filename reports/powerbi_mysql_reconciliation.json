@@ -1,0 +1,60 @@
+{
+  "source": "Actual Power BI Desktop CSV vs stored successful MySQL 8.0.44 integration baseline; identical processed dataset",
+  "checks": {
+    "total_bookings": {
+      "python": 6000.0,
+      "sql": 6000.0,
+      "passed": true
+    },
+    "completed_bookings": {
+      "python": 4686.0,
+      "sql": 4686.0,
+      "passed": true
+    },
+    "cancelled_bookings": {
+      "python": 1009.0,
+      "sql": 1009.0,
+      "passed": true
+    },
+    "total_revenue": {
+      "python": 1940329.12,
+      "sql": 1940329.12,
+      "passed": true
+    },
+    "total_profit": {
+      "python": 545217.39,
+      "sql": 545217.39,
+      "passed": true
+    },
+    "average_booking_value": {
+      "python": 414.0693811352966,
+      "sql": 414.0693811353,
+      "passed": true
+    },
+    "cancellation_rate": {
+      "python": 0.16816666666667,
+      "sql": 0.1681666667,
+      "passed": true
+    },
+    "profit_margin": {
+      "python": 0.2809922215670298,
+      "sql": 0.2809922216,
+      "passed": true
+    },
+    "average_daily_rate": {
+      "python": 137.038570520517,
+      "sql": 137.0385705205,
+      "passed": true
+    },
+    "average_length_of_stay": {
+      "python": 3.02155356380708,
+      "sql": 3.0215535638,
+      "passed": true
+    },
+    "repeat_customer_rate": {
+      "python": 0.98496240601504,
+      "sql": 0.984962406,
+      "passed": true
+    }
+  }
+}

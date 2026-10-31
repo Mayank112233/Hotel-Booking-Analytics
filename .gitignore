@@ -1,0 +1,14 @@
+.env
+.venv/
+__pycache__/
+*.pyc
+*.db
+*.pbix
+!powerbi/Hotel Booking Analytics.pbix
+.pbi/
+.mysql-test*/
+mysql-test-*/
+.vscode/
+desktop.ini
+Thumbs.db
+*.log

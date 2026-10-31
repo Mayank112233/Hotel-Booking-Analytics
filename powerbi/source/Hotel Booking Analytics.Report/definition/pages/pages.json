@@ -1,0 +1,10 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/pagesMetadata/1.1.0/schema.json",
+  "pageOrder": [
+    "98232bd519026500847e",
+    "revenue_profit",
+    "customers_cancel",
+    "operations"
+  ],
+  "activePageName": "98232bd519026500847e"
+}

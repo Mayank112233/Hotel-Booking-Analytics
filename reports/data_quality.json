@@ -1,0 +1,27 @@
+{
+  "rows_checked": 6000,
+  "checks": {
+    "duplicate_booking_id": 0,
+    "missing_customer_reference": 0,
+    "missing_hotel_reference": 0,
+    "invalid_dates": 0,
+    "nights_mismatch": 0,
+    "lead_time_mismatch": 0,
+    "invalid_money": 0,
+    "invalid_status": 0,
+    "missing_channel": 0,
+    "revenue_discrepancy": 0,
+    "profit_discrepancy": 0,
+    "noncompleted_cost": 0,
+    "unexpected_dates": 0
+  },
+  "invalid_rows": 0,
+  "source_sha256": "36d63889c827ed20ce7fc82916f082a2b47d50b4f71d71dcc94fb1dcb1f1584d",
+  "unavailable": {
+    "registration_date": 799,
+    "commission_rate": 5,
+    "number_of_guests": 6000
+  },
+  "country_conflict_hotels": 21,
+  "segment_changes_customers": 786
+}

@@ -1,0 +1,15 @@
+test_corruptions_detected_not_deleted (test_pipeline.PipelineTests.test_corruptions_detected_not_deleted) ... ok
+test_dates (test_pipeline.PipelineTests.test_dates) ... ok
+test_filtered_reconciliation (test_pipeline.PipelineTests.test_filtered_reconciliation) ... ok
+test_foreign_keys_and_join_grain (test_pipeline.PipelineTests.test_foreign_keys_and_join_grain) ... ok
+test_kpi_fixture_statuses_and_denominators (test_pipeline.PipelineTests.test_kpi_fixture_statuses_and_denominators) ... ok
+test_money (test_pipeline.PipelineTests.test_money) ... ok
+test_primary_keys (test_pipeline.PipelineTests.test_primary_keys) ... ok
+test_python_sql_reconciliation (test_pipeline.PipelineTests.test_python_sql_reconciliation) ... ok
+test_transform_reproducibility (test_pipeline.PipelineTests.test_transform_reproducibility) ... ok
+test_zero_denominators (test_pipeline.PipelineTests.test_zero_denominators) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 0.352s
+
+OK

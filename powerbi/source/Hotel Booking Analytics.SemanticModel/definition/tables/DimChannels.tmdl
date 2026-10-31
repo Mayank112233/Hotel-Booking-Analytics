@@ -1,0 +1,33 @@
+table DimChannels
+	lineageTag: 98faccab-d0c9-5afe-aaf4-47713919e753
+
+	column channel_name
+		dataType: string
+		lineageTag: 9f129622-aa5a-4bad-aee8-4ca4f6fcc84b
+		summarizeBy: none
+		sourceColumn: channel_name
+
+	column channel_id
+		dataType: int64
+		isHidden
+		lineageTag: f0075479-aaca-4965-89ab-08468a6b99d4
+		summarizeBy: none
+		sourceColumn: channel_id
+
+	column commission_rate
+		dataType: decimal
+		lineageTag: b93f132c-698f-4a44-89ca-60fcda420c7e
+		summarizeBy: none
+		sourceColumn: commission_rate
+
+	partition DimChannels = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(pDataFolder & "/channels.csv"), [Delimiter=",", Encoding=65001, QuoteStyle=QuoteStyle.Csv]),
+				    Headers = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    Nulls = Table.ReplaceValue(Headers, "", null, Replacer.ReplaceValue, Table.ColumnNames(Headers)),
+				    Typed = Table.TransformColumnTypes(Nulls, {{"channel_name", type text}, {"channel_id", Int64.Type}, {"commission_rate", Currency.Type}}, "en-US")
+				in
+				    Typed
+
